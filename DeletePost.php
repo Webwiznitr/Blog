@@ -1,57 +1,38 @@
 <?php require_once("Includes/DB.php"); ?>
 <?php require_once("Includes/Functions.php"); ?>
 <?php require_once("Includes/Sessions.php"); ?>
+<?php Confirm_Login(); ?>
+
 <?php
-$_SESSION["TrackingURL"]=$_SERVER["PHP_SELF"];
-Confirm_Login(); ?>
-<?php
+$SearchQueryParameter = $_GET["id"];
+
+//            taking existing contents from post
+$ConnectingDB;
+$sql = "SELECT * FROM posts WHERE id='$SearchQueryParameter'";
+$stmt = $ConnectingDB ->query($sql);
+while ($DataRows=$stmt->fetch()){
+    $TitleToBeDeleted = $DataRows['title'];
+    $CategoryToBeDeleted = $DataRows['category'];
+    $ImageToBeDeleted = $DataRows['image'];
+    $PostToBeDeleted = $DataRows['post'];
+}
+
 if(isset($_POST["Submit"])){
-    $PostTitle = $_POST["PostTitle"];
-    $Category = $_POST["Category"];
-    $Image = $_FILES["Image"]["name"];
-    $Target = "Uploads/".basename($_FILES["Image"]["name"]);
-    $PostText = $_POST["PostDescription"];
-    $Admin = $_SESSION["UserName"];
-    date_default_timezone_set("Asia/Kolkata");
-    $CurrentTime=time();
-    $DateTime=strftime("%B-%d-%Y %H: %M: %S",$CurrentTime);
-
-
-    if(empty($PostTitle)){
-        $_SESSION["ErrorMessage"] = "Title Cannot be empty";
-        Redirect_to("Addnewpost.php");
-    }elseif (strlen($PostTitle)<5){
-        $_SESSION["ErrorMessage"] = "Post title should be greater than 5 character";
-        Redirect_to("Addnewpost.php");
-    }elseif (strlen($PostText)>9999) {
-        $_SESSION["ErrorMessage"] = "Post description should be less than 1000 character";
-        Redirect_to("Addnewpost.php");
-    }else{
-        //Query to insert post in database when everything is good
-        global $ConnectingDB;
-        $sql = "INSERT INTO posts(datetime,title,category,author,image,post)VALUES(:dateTime,:postTitle,:categoryName,:adminName,:imageName,:postDescription)";
-        $stmt = $ConnectingDB->prepare($sql);
-
-        //binding the values
-        $stmt->bindValue(':dateTime',$DateTime);
-        $stmt->bindValue(':postTitle',$PostTitle);
-        $stmt->bindValue(':categoryName',$Category);
-        $stmt->bindValue(':adminName',$Admin);
-        $stmt->bindValue(':imageName',$Image);
-        $stmt->bindValue(':postDescription',$PostText);
-
-
-        $Execute=$stmt->execute();
-        move_uploaded_file($_FILES["Image"]["tmp_name"],$Target);
+        //Query to delete post in database when everything is good
+        $ConnectingDB;
+        $sql ="DELETE FROM posts WHERE id='$SearchQueryParameter'";
+        $Execute =$ConnectingDB->query($sql);
 
         if($Execute){
-            $_SESSION["SuccessMessage"]="post with id : ".$ConnectingDB->lastInsertId() ." Added Successfully";
-            Redirect_to("Addnewpost.php");
+            $Target_Path_To_DELETE_Image = "Uploads/$ImageToBeDeleted";
+            unlink($Target_Path_To_DELETE_Image);
+            $_SESSION["SuccessMessage"]="post  DELETED Successfully";
+            Redirect_to("Posts.php");
         }else{
             $_SESSION["ErrorMessage"]= "something went wrong. Try Again !";
-            Redirect_to("Addnewpost.php");
+            Redirect_to("Posts.php");
         }
-    }
+
 
 }
 
@@ -61,12 +42,12 @@ if(isset($_POST["Submit"])){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scal=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://kit.fontawesome.com/7f6ee3d237.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css">
-    <title>Add New Post</title>
+    <title>Delete Post</title>
 </head>
 <body>
 <?php  ?>
@@ -81,10 +62,10 @@ if(isset($_POST["Submit"])){
         <div class="collapse navbar-collapse" id="Rcollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a href="MyProfile.php" class="nav-link"><i class="fas fa-user text-success"></i> My Profile</a>
+                    <a href="#" class="nav-link"><i class="fas fa-user text-success"></i> My Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a href="Dashboard.php" class="nav-link">Dashboard</a>
+                    <a href="#" class="nav-link">Dashboard</a>
                 </li>
                 <li class="nav-item">
                     <a href="Posts.php" class="nav-link">Posts</a>
@@ -97,7 +78,7 @@ if(isset($_POST["Submit"])){
                     <a href="Admins.php" class="nav-link">Manage Admins</a>
                 </li>
                 <li class="nav-item">
-                    <a href="Comments.php" class="nav-link">Comments</a>
+                    <a href="#" class="nav-link">Comments</a>
                 </li>
                 <li class="nav-item">
                     <a href="index.php" class="nav-link">GO Live</a>
@@ -118,7 +99,7 @@ if(isset($_POST["Submit"])){
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1><i class="fas fa-edit"></i> Add New Post</h1>
+                <h1><i class="fas fa-edit"></i> Delete Post</h1>
             </div>
         </div>
     </div>
@@ -133,46 +114,35 @@ if(isset($_POST["Submit"])){
             echo ErrorMessage();
             echo SuccessMessage();
             ?>
-            <form class="" action="Addnewpost.php" method="post" enctype="multipart/form-data">
+            <form class="" action="DeletePost.php?id=<?php echo $SearchQueryParameter;?>" method="post" enctype="multipart/form-data">
                 <div class="card bg-secondary text-light mb-3">
                     <div class="card-body bg-dark">
                         <div class="form-group">
                             <label for="title"><span class="fieldinfo">Post Title :</span></label>
-                            <input class="form-control" type="text" name="PostTitle" placeholder="Type title here">
+                            <input disabled class="form-control" type="text" name="PostTitle" placeholder="Type title here" value="<?php echo $TitleToBeDeleted; ?>">
                         </div>
                         <div class="form-group">
-                            <label for="CategoryTitle"><span class="fieldinfo">Choose Category :</span></label>
-                            <select class="form-control" id="CategoryTitle" name="Category">
-                                <?php
-                                    // fetching all the category from category table
-                                global $ConnectingDB;
-                                $sql = "SELECT id,title FROM category";
-                                $stmt = $ConnectingDB->Query($sql);
-                                while ($Datarows =$stmt->fetch()){
-                                    $Id = $Datarows["id"];
-                                    $CategoryName = $Datarows["title"];
-                                    ?>
-                                <option><?php echo $CategoryName; ?></option>
-                                <?php } ?>
-                            </select>
+                            <span class="fieldinfo">Existing Category:</span>
+                            <?php echo $CategoryToBeDeleted;?>
+                            <br>
                         </div>
                         <div class="form-group">
-                            <div class="custom-file">
-                            <input class="custom-file-input"type="file" name="Image" id="imageselect" value="">
-                                <label for="imageselect" class="custom-file-label">Select Image </label>
-                           </div>
+                            <span class="fieldinfo">Existing Image: </span>
+                            <img class="mb-2"src="uploads/<?php echo $ImageToBeDeleted; ?>" width="170px"; height="70px";>
                         </div>
                         <div class="form-group">
                             <label for="Post"><span class="fieldinfo">Post :</span></label>
-                            <textarea class="form-control" name="PostDescription" cols="80" rows="8" id="Post"></textarea>
+                            <textarea disabled class="form-control" name="PostDescription" cols="80" rows="8" id="Post">
+                                <?php echo $PostToBeDeleted; ?>
+                            </textarea>
                         </div>
                         <div class="row">
                             <div class="col-lg-6 mb-2">
                                 <a href="#" class="btn btn-warning btn-block"><i class="fas fa-arrow-left"></i> Back to dashboard</a>
                             </div>
                             <div class="col-lg-6 mb-2">
-                                <button type="Submit" name="Submit" class="btn btn-success btn-block">
-                                    <i class="fas fa-check"></i> Publish
+                                <button type="Submit" name="Submit" class="btn btn-danger btn-block">
+                                    <i class="fas fa-trash"></i> Delete
                                 </button>
                             </div>
                         </div>
@@ -204,5 +174,6 @@ if(isset($_POST["Submit"])){
 </script>
 </body>
 </html>
+
 
 

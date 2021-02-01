@@ -7,41 +7,49 @@ Confirm_Login(); ?>
 
  <?php
   if(isset($_POST["Submit"])){                                        //setting connection of name submit
-    $Category = $_POST["CategoryTitle"];
-    $Admin =  $_SESSION["UserName"];
+    $UserName = $_POST["Username"];
+    $Name = $_POST["Name"];
+    $Password = $_POST["Password"];
+    $ConfirmPassword = $_POST["ConfirmPassword"];
+    $Admin = $_SESSION["UserName"];
     date_default_timezone_set("Asia/Kolkata");
     $CurrentTime=time();
     $DateTime=strftime("%B-%d-%Y %H: %M: %S",$CurrentTime);
 
 
-    if(empty($Category)){                                              //assigning variable to name of "CatagoryTitle"
+    if(empty($UserName)||empty($Password)||empty($ConfirmPassword)){                                              //assigning variable to name of "CatagoryTitle"
         $_SESSION["ErrorMessage"] = "All fields must be filled out";
-        Redirect_to("Categories.php");
-    }elseif (strlen($Category)<2){
-        $_SESSION["ErrorMessage"] = "category title should be greater than 2 character";
-        Redirect_to("Categories.php");
-    }elseif (strlen($Category)>49) {
-        $_SESSION["ErrorMessage"] = "category title should be less than 50 character";
-        Redirect_to("Categories.php");
-    }else{
-       //Query to insert category in database when everything is good
-
-        $sql = "INSERT INTO category(title,author,datetime)VALUES(:categoryName,:adminName,:dateTime)";
+        Redirect_to("Admins.php");
+    }elseif (strlen($Password)<4){
+        $_SESSION["ErrorMessage"] = "Password should be greater than 3 character";
+        Redirect_to("Admins.php");
+    }elseif ($Password !== $ConfirmPassword) {
+        $_SESSION["ErrorMessage"] = "Password and confirm password should match";
+        Redirect_to("Admins.php");
+    }elseif (CheckUserNameExistsOrNot($UserName)) {
+        $_SESSION["ErrorMessage"] = "Username Exists. Try Another One!";
+        Redirect_to("Admins.php");
+    }
+    else{
+       //Query to insert new admin in database when everything is good
+        global $ConnectingDB;
+        $sql = "INSERT INTO admins(datetime,username,password,aname,addedby)VALUES(:dateTime,:userName,:password,:aName,:adminName)";
         $stmt = $ConnectingDB->prepare($sql);
 
         //binding the values
-
-        $stmt->bindValue(':categoryName',$Category);
-        $stmt->bindValue(':adminName',$Admin);
         $stmt->bindValue(':dateTime',$DateTime);
+        $stmt->bindValue(':userName',$UserName);
+        $stmt->bindValue(':password',$Password);
+        $stmt->bindValue(':aName',$Name);
+        $stmt->bindValue(':adminName',$Admin);
         $Execute=$stmt->execute();
 
         if($Execute){
-            $_SESSION["SuccessMessage"]="Category with id : ".$ConnectingDB->lastInsertId() ."''Added Successfully";
-            Redirect_to("Categories.php");
+            $_SESSION["SuccessMessage"]="New Admin with the username of ".$UserName." added Successfully";
+            Redirect_to("Admins.php");
         }else{
             $_SESSION["ErrorMessage"]= "something went wrong... Try Again !";
-            Redirect_to("Categories.php");
+            Redirect_to("Admins.php");
         }
     }
 
@@ -58,7 +66,7 @@ Confirm_Login(); ?>
     <script src="https://kit.fontawesome.com/7f6ee3d237.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css">
-    <title>Categories</title>
+    <title>Admin </title>
 </head>
 <body>
 <?php  ?>
@@ -82,7 +90,7 @@ Confirm_Login(); ?>
                     <a href="Posts.php" class="nav-link">Posts</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Categories</a>
+                    <a href="Categories.php" class="nav-link">Categories</a>
                 </li>
 
                 <li class="nav-item">
@@ -110,7 +118,7 @@ Confirm_Login(); ?>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1><i class="fas fa-edit" style="color:#27aae1;"></i> Manage Categories</h1>
+                <h1><i class="fas fa-user" style="color:#27aae1;"></i> Manage Admins</h1>
             </div>
         </div>
     </div>
@@ -121,19 +129,31 @@ Confirm_Login(); ?>
 <section class="container py-2 mb-4">
   <div class="row">
       <div class="offset-lg-1 col-lg-10" style="min-height: 540px;">
-          <?php
-                 echo ErrorMessage();
+          <?php  echo ErrorMessage();
                  echo SuccessMessage();
           ?>
-          <form class="" action="Categories.php" method="post">
+          <form class="" action="Admins.php" method="post">
               <div class="card bg-secondary text-light mb-3">
                   <div class="card-header">
-                      <h1>Add New Category</h1>
+                      <h1>Add New Admin</h1>
                   </div>
                   <div class="card-body bg-dark">
                       <div class="form-group">
-                          <label for="title"><span class="fieldinfo">Category Title :</span></label>
-                          <input class="form-control" type="text" name="CategoryTitle" placeholder="Type title here">
+                          <label for="username"><span class="fieldinfo"> Username:</span></label>
+                          <input class="form-control" type="text" name="Username" id="username" value="">
+                      </div>
+                      <div class="form-group">
+                          <label for="Name"><span class="fieldinfo"> Name:</span></label>
+                          <input class="form-control" type="text" name="Name" id="Name" value="">
+                          <small class="text-warning text-muted">Optional</small>
+                      </div>
+                      <div class="form-group">
+                          <label for="Password"><span class="fieldinfo"> Password:</span></label>
+                          <input class="form-control" type="password" name="Password" id="Password" value="">
+                      </div>
+                      <div class="form-group">
+                          <label for="ConfirmPassword"><span class="fieldinfo"> Confirm Password:</span></label>
+                          <input class="form-control" type="Password" name="ConfirmPassword" id="ConfirmPassword" value="">
                       </div>
                       <div class="row">
                           <div class="col-lg-6 mb-2">
@@ -148,39 +168,42 @@ Confirm_Login(); ?>
                   </div>
               </div>
           </form>
-         <!--delete category-->
-          <h2>Existing Categories</h2>
+
+           <!--  deleting admins-->
+          <h2>Existing Admins</h2>
           <div class="table-responsive">
           <table class="table table-striped table-hover">
               <thead class="thead-dark">
               <tr>
                   <th>No. </th>
                   <th>Date&Time</th>
-                  <th>Category Name</th>
-                  <th>Creator Name</th>
+                  <th>Username</th>
+                  <th>Admin name</th>
+                  <th>Added by</th>
                   <th>Action</th>
               </tr>
               </thead>
               <?php
               global $ConnectingDB;
-              $sql = "SELECT * FROM category  ORDER BY id desc";
+              $sql = "SELECT * FROM admins  ORDER BY id desc";
               $Execute = $ConnectingDB->query($sql);
               $SrNo = 0;
               while ($DataRows=$Execute->fetch()){
-                  $CategoryId = $DataRows["id"];
-                  $CategoryDate = $DataRows["datetime"];
-                  $CategoryName = $DataRows["title"];
-                  $CreatorName = $DataRows["author"];
+                  $AdminId = $DataRows["id"];
+                  $DateTime= $DataRows["datetime"];
+                  $AdminUsername = $DataRows["username"];
+                  $AdminName = $DataRows["aname"];
+                  $AddedBy = $DataRows["addedby"];
                   $SrNo++;
                   ?>
                   <tbody>
                   <tr>
                       <td><?php echo htmlentities($SrNo); ?></td>
-                      <td><?php echo htmlentities($CategoryDate); ?></td>
-                      <td><?php echo htmlentities($CategoryName); ?></td>
-                      <td><?php echo htmlentities($CreatorName); ?></td>
-                      <td><a href="DeleteCategory.php?id=<?php echo $CategoryId;?>" class="btn btn-danger">Delete</a></td>
-
+                      <td><?php echo htmlentities($DateTime); ?></td>
+                      <td><?php echo htmlentities($AdminUsername); ?></td>
+                      <td><?php echo htmlentities($AdminName); ?></td>
+                      <td><?php echo htmlentities($AddedBy); ?></td>
+                      <td><a href="DeleteAdmin.php?id=<?php echo $AdminId;?>" class="btn btn-danger">Delete</a></td>
                   </tr>
                   </tbody>
               <?php }?>

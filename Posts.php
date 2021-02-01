@@ -1,6 +1,9 @@
 <?php require_once("Includes/DB.php"); ?>
 <?php require_once("Includes/Functions.php"); ?>
 <?php require_once("Includes/Sessions.php"); ?>
+<?php
+$_SESSION["TrackingURL"]=$_SERVER["PHP_SELF"];
+ Confirm_Login(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,27 +30,27 @@
                     <a href="#" class="nav-link"><i class="fas fa-user text-success"></i> My Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Dashboard</a>
+                    <a href="Dashboard.php" class="nav-link">Dashboard</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">Posts</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Categories</a>
+                    <a href="Categories.php" class="nav-link">Categories</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Manage Admins</a>
+                    <a href="Admins.php" class="nav-link">Manage Admins</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Comments</a>
+                    <a href="Comments.php" class="nav-link">Comments</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">GO Live</a>
+                    <a href="index.php" class="nav-link">GO Live</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a href="#" class="nav-link text-danger"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li class="nav-item"><a href="Logout.php" class="nav-link text-danger"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </div>
 
@@ -74,12 +77,12 @@
                 </a>
             </div>
             <div class="col-lg-3 mb-2">
-                <a href="#" class="btn btn-warning btn-block">
+                <a href="Admins.php" class="btn btn-warning btn-block">
                     <i class="fas fa-user-plus"></i> Add New Admin
                 </a>
             </div>
             <div class="col-lg-3 mb-2">
-                <a href="#" class="btn btn-success btn-block">
+                <a href="ApproveComments.php" class="btn btn-success btn-block">
                     <i class="fas fa-check"></i> Approve Comments
                 </a>
             </div>
@@ -92,6 +95,11 @@
 <section class="container py-2 mb-4">
     <div class="row">
         <div class="col-lg-12">
+            <?php
+            echo ErrorMessage();
+            echo SuccessMessage();
+            ?>
+            <div class="table-responsive">
             <table class="table table-striped table-hover">
                 <thead class="thead-dark">
                 <tr>
@@ -107,7 +115,7 @@
                 </tr>
                 </thead>
                 <?php
-                $ConnectingDB;
+                global $ConnectingDB;
                 $sql = "SELECT* FROM posts";
                 $stmt = $ConnectingDB->query($sql);
                 $sr = 0;
@@ -147,8 +155,29 @@
                         echo $Admin;
                         ?>
                     </td>
-                    <td><img src="uploads/<?php echo $Image; ?>" width="50px;" height="50px;"</td>
-                    <td>Comments</td>
+                    <td><img src="Uploads/<?php echo $Image; ?>" width="50px;" height="50px;"</td>
+                    <td>
+                        <?php
+                        $Total=ApproveCommentsAccordingtoPost($Id);
+                        if($Total>0) {
+                            ?>
+                            <span class="badge badge-success">
+                                     <?php
+                                     echo $Total; ?>
+                                 </span>
+                        <?php } ?>
+                        </span>
+                        <?php
+                        $Total=DisApproveCommentsAccordingtoPost($Id);
+                        if($Total>0) {
+                            ?>
+                            <span class="badge badge-danger">
+                                     <?php
+                                     echo $Total; ?>
+                                 </span>
+                        <?php } ?>
+                        </span>
+                    </td>
                     <td>
                         <a href="EditPost.php?id=<?php echo $Id;?>" ><span class="btn btn-warning">Edit</span></a>
                         <a href="DeletePost.php?id=<?php echo $Id; ?>"><span class="btn btn-danger">Delete</span></a>
@@ -158,6 +187,7 @@
                     </tbody>
                  <?php } ?>
             </table>
+            </div>
         </div>
     </div>
 </section>

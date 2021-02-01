@@ -1,15 +1,17 @@
 <?php require_once("Includes/DB.php"); ?>
 <?php require_once("Includes/Functions.php"); ?>
 <?php require_once("Includes/Sessions.php"); ?>
+<?php Confirm_Login(); ?>
 
 <?php
+$SearchQueryParameter = $_GET["id"];
 if(isset($_POST["Submit"])){
     $PostTitle = $_POST["PostTitle"];
     $Category = $_POST["Category"];
     $Image = $_FILES["Image"]["name"];
     $Target = "Uploads/".basename($_FILES["Image"]["name"]);
     $PostText = $_POST["PostDescription"];
-    $Admin = "Debashis";
+    $Admin =  $_SESSION["Username"];
     date_default_timezone_set("Asia/Kolkata");
     $CurrentTime=time();
     $DateTime=strftime("%B-%d-%Y %H: %M: %S",$CurrentTime);
@@ -17,37 +19,32 @@ if(isset($_POST["Submit"])){
 
     if(empty($PostTitle)){
         $_SESSION["ErrorMessage"] = "Title Cannot be empty";
-        Redirect_to("image_gallery.php");
+        Redirect_to("Posts.php");
     }elseif (strlen($PostTitle)<5){
         $_SESSION["ErrorMessage"] = "Post title should be greater than 5 character";
-        Redirect_to("image_gallery.php");
-    }elseif (strlen($PostText)>999) {
-        $_SESSION["ErrorMessage"] = "Post description should be less than 1000 character";
-        Redirect_to("image_gallery.php");
+        Redirect_to("Posts.php");
+    }elseif (strlen($PostText)>9999) {
+        $_SESSION["ErrorMessage"] = "Post description should be less than 10000 character";
+        Redirect_to("Posts.php");
     }else{
-        //Query to insert post in database when everything is good
-
-        $sql = "INSERT INTO posts(datetime,title,category,author,image,post)VALUES(:dateTime,:postTitle,:categoryName,:adminName,:imageName,:postDescription)";
-        $stmt = $ConnectingDB->prepare($sql);
-
-        //binding the values
-        $stmt->bindValue(':dateTime',$DateTime);
-        $stmt->bindValue(':postTitle',$PostTitle);
-        $stmt->bindValue(':categoryName',$Category);
-        $stmt->bindValue(':adminName',$Admin);
-        $stmt->bindValue(':imageName',$Image);
-        $stmt->bindValue(':postDescription',$PostText);
-
-
-        $Execute=$stmt->execute();
+        //Query to update post in database when everything is good
+        global $ConnectingDB;
+        if(!empty($_FILES["Image"]["name"])){
+            $sql = "UPDATE posts SET title='$PostTitle', category='$Category', image='$Image', post='$PostText' 
+        WHERE id='$SearchQueryParameter'";
+        }else{
+            $sql = "UPDATE posts SET title='$PostTitle', category='$Category', post='$PostText' 
+        WHERE id='$SearchQueryParameter'";
+        }
+        $Execute =$ConnectingDB->query($sql);
         move_uploaded_file($_FILES["Image"]["tmp_name"],$Target);
 
         if($Execute){
-            $_SESSION["SuccessMessage"]="post with id : ".$ConnectingDB->lastInsertId() ." Added Successfully";
-            Redirect_to("image_gallery.php");
+            $_SESSION["SuccessMessage"]="post  updated Successfully";
+            Redirect_to("Posts.php");
         }else{
             $_SESSION["ErrorMessage"]= "something went wrong. Try Again !";
-            Redirect_to("image_gallery.php");
+            Redirect_to("Posts.php");
         }
     }
 
@@ -59,7 +56,7 @@ if(isset($_POST["Submit"])){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scal=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://kit.fontawesome.com/7f6ee3d237.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -82,27 +79,27 @@ if(isset($_POST["Submit"])){
                     <a href="#" class="nav-link"><i class="fas fa-user text-success"></i> My Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Dashboard</a>
+                    <a href="Dashboard.php" class="nav-link">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Posts</a>
+                    <a href="Posts.php" class="nav-link">Posts</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Categories</a>
+                    <a href="Categories.php" class="nav-link">Categories</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Manage Admins</a>
+                    <a href="Admins.php" class="nav-link">Manage Admins</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Comments</a>
+                    <a href="Comments.php" class="nav-link">Comments</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">GO Live</a>
+                    <a href="index.php" class="nav-link">GO Live</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a href="#" class="nav-link text-danger"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li class="nav-item"><a href="Logout.php" class="nav-link text-danger"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </div>
 
@@ -132,7 +129,6 @@ if(isset($_POST["Submit"])){
             echo SuccessMessage();
 //            taking existing contents from post
             $ConnectingDB;
-            $SearchQueryParameter = $_GET["id"];
             $sql = "SELECT * FROM posts WHERE id='$SearchQueryParameter'";
             $stmt = $ConnectingDB ->query($sql);
             while ($DataRows=$stmt->fetch()){
@@ -142,7 +138,7 @@ if(isset($_POST["Submit"])){
                 $PostToBeUpdated = $DataRows['post'];
             }
             ?>
-            <form class="" action="Addnewpost.php" method="post" enctype="multipart/form-data">
+            <form class="" action="EditPost.php?id=<?php echo $SearchQueryParameter;?>" method="post" enctype="multipart/form-data">
                 <div class="card bg-secondary text-light mb-3">
                     <div class="card-body bg-dark">
                         <div class="form-group">
