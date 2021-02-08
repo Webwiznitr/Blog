@@ -1,0 +1,55 @@
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+.navbar{
+    background-image:linear-gradient(90deg,#035783, #47AAE2, #035783);
+}
+.navbar-brand{
+   font-family: gistesy, sans-serif;
+   font-weight: bolder;
+   font-size: 2rem;
+   color: white;
+   padding-right: 4rem;
+}
+
+.card-img-top{
+    padding: 2rem;
+}
+.card-title{
+    margin-top:-2rem ;
+}
+.card-text{
+    padding-top: 1rem;
+}
+.text-center{
+    padding: 2rem;
+}
+.badge{
+    float: right;
+    position: relative;
+}
+
+.card{
+    border-radius: 1rem;
+    box-shadow: 1px 11px 7px -2px skyblue;
+    margin: 0 auto; 
+    float: none; 
+}
+.lefty{
+   position: relative;
+   float: left;
+}
+
+.btn{
+    border-radius: 1rem;
+    float: right;
+}
+.btn-info{
+    border-color: gray;
+}
+
+.me-2{
+    margin-right: 7.5rem!important;
+}
+
