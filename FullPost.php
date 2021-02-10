@@ -68,10 +68,9 @@ if(isset($_POST["Submit"])) {
 </head>
 <body>
 <!--NAVIGATION BAR STARTS-->
-<div style="height: 10px; background: cornflowerblue"></div>
-<div class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a href="#" class="navbar-brand">THINK HARD</a>
+<div class="navbar navbar-expand-lg navbar-light bg-custom">
+    <div class="container-fluid">
+        <a href="#" class="navbar-brand " style= "color:aliceblue;">MindSaga</a>
         <button style="background-color: #BEC9F2;" class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#Rcollapse">
             <span class="navbar-toggle-icon"></span>
         </button>
@@ -93,7 +92,6 @@ if(isset($_POST["Submit"])) {
                 <li class="nav-item">
                     <a href="#" class="nav-link">Features</a>
                 </li>
-
             </ul>
             <ul class="navbar-nav ml-auto">
                 <form class="form-inline d-none d-sm-block" action="index.php">
@@ -104,10 +102,8 @@ if(isset($_POST["Submit"])) {
                 </form>
             </ul>
         </div>
-
     </div>
 </div>
-<div style="height: 10px; background: cornflowerblue"></div>
 <!--NAVIGATION BAR ENDS-->
 
 <!--HEADER STARTS-->
@@ -116,10 +112,7 @@ if(isset($_POST["Submit"])) {
 
         <!--main area starts---->
 
-        <div class="col-sm-8">
-            <h1>The Complete Responsive CMS Blog</h1>
-            <h1 class="lead">By Debashis Nayak</h1>
-
+        <div class="col-sm-8 mt-4">
             <?php
             echo ErrorMessage();
             echo SuccessMessage();
@@ -159,7 +152,7 @@ if(isset($_POST["Submit"])) {
 
                 ?>
                 <div class="card">
-                    <img src="Uploads/<?php echo htmlentities($Image); ?>" style="max-height: 450px;" class="img-fluid card-img-top"/>
+                    <img src="Uploads/<?php echo htmlentities($Image); ?>" style="max-height: 500px;" class="img-fluid card-img-top"/>
                     <div class="card-body">
                         <h4 class="card-title"><?php echo htmlentities($PostTitle)?></h4>
                         <small class="text-muted">Written by <?php echo htmlentities($Admin);?> on <?php echo htmlentities($DateTime); ?></small>

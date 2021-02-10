@@ -14,55 +14,55 @@ $_SESSION["TrackingURL"]=$_SERVER["PHP_SELF"];
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://kit.fontawesome.com/7f6ee3d237.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css">
     <title>Dashboard</title>
 </head>
 <body>
 <!--NAVIGATION BAR-->
-<div style="height: 10px; background: cornflowerblue"></div>
-<div class="navbar navbar-expand-lg navbar-dark bg-dark">
+<div class="navbar navbar-expand-lg navbar-light bg-custom">
     <div class="container">
-        <a href="#" class="navbar-brand">THINK HARD</a>
-        <button style="background-color: #BEC9F2;" class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#Rcollapse">
-            <span class="navbar-toggle-icon"></span>
+        <a href="#" class="navbar-brand " style= "color:aliceblue; font-family: mindsagacustom;">MindSaga</a>
+        <button class="navbar-toggler ml-auto" type="button" data-bs-toggle="collapse" data-bs-target="#Rcollapse" aria-controls="Rcollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="Rcollapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a href="MyProfile.php" class="nav-link"><i class="fas fa-user text-success"></i> My Profile</a>
+                <li class="nav-item" >
+                    <a href="MyProfile.php" class="nav-link" style= "color:white ; font-weight: bolder;">My Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Dashboard</a>
+                    <a href="#" class="nav-link" style= "color:white ; font-weight: bolder;">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a href="Posts.php" class="nav-link">Posts</a>
+                    <a href="Posts.php" class="nav-link" style= "color:white ; font-weight: bolder;">Posts</a>
                 </li>
                 <li class="nav-item">
-                    <a href="Categories.php" class="nav-link">Categories</a>
+                    <a href="Categories.php" class="nav-link"style= "color:white ; font-weight: bolder;">Categories</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="Admins.php" class="nav-link">Manage Admins</a>
+                    <a href="Admins.php" class="nav-link" style= "color:white ; font-weight: bolder;">Manage Admins</a>
                 </li>
                 <li class="nav-item">
-                    <a href="Comments.php" class="nav-link">Comments</a>
+                    <a href="Comments.php" class="nav-link" style= "color:white ; font-weight: bolder;">Comments</a>
                 </li>
                 <li class="nav-item">
-                    <a href="index.php" class="nav-link">GO Live</a>
+                    <a href="index.php" class="nav-link" style= "color:white ; font-weight: bolder;">GO Live</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a href="Logout.php" class="nav-link text-danger"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li class="nav-item" ><a href="Logout.php" class="nav-link text-warning" ><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </div>
 
     </div>
 </div>
-<div style="height: 10px; background: cornflowerblue"></div>
 <!--NAVBAR-->
 
 <!--HEADER-->
-<header class="bg-dark text-white py-3">
+<header class=" text-white py-3" style="background-image:linear-gradient(360deg, #1B80B2 ,#1B0039);">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -208,7 +208,7 @@ $_SESSION["TrackingURL"]=$_SERVER["PHP_SELF"];
                                 <?php } ?>
                                 </span>
                         </td>
-                        <td><a target="_blank" href="FullPost.php?id="><?php echo $PostId; ?></a><span class="btn btn-info">Preview</span></td>
+                        <td><a href="FullPost.php?id=<?php echo $PostId; ?>" target="_blank"  </a><span class="btn btn-info">Preview</span></td>
                     </tr>
                     </tbody>
                     <?php } ?>
@@ -219,23 +219,5 @@ $_SESSION["TrackingURL"]=$_SERVER["PHP_SELF"];
 </section>
 <!--MAIN AREA-->
 <!--FOOTER-->
-<div style="height: 5px; background: cornflowerblue"></div>
-<footer class="bg-dark text-white">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <p class="lead text-center">THINK HARD  |  <span id="year"></span>&copy: -----All right reserved</p>
-            </div>
-        </div>
-    </div>
-</footer>
-<div style="height: 5px; background: cornflowerblue"></div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-<script>
-    $('#year').text(new Date().getFullYear());
-</script>
-</body>
-</html>
+<?php require_once ("Backendfooter.php");?>
 

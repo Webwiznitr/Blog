@@ -1,3 +1,8 @@
+@font-face {
+    font-family: mindsagacustom;
+    src: url(../fonts/Gistesy.ttf);
+}
+
 a{
     color: #ffffff;
 }
@@ -8,4 +13,49 @@ a{
 }
 .CommentBackground{
     background-color: #ff8c00;
+}
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+.navbar{
+    background-image:linear-gradient(90deg, #1B80B2 ,#6606BB);
+}
+.navbar-brand{
+    font-family: gistesy, sans-serif;
+    font-weight: bolder;
+    font-size: 2rem;
+    color: white;
+    padding-right: 4rem;
+}
+.container{
+    padding-top: 10px;
+}
+.card-img-top{
+    padding: 2rem;
+}
+.card-title{
+    margin-top:-2rem ;
+}
+.card-text{
+    padding-top: 1rem;
+}
+.text-center{
+    padding: 2rem;
+}
+.badge{
+    margin-top: 0.5rem;
+    float: right;
+    position: relative;
+}
+.lefty{
+    position: relative;
+    float: left;
+}
+.me-2{
+    margin-right: 7.5rem!important;
+}
+.test{
+    float: left;
+    width: 100%;
 }

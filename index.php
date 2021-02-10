@@ -5,12 +5,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scal=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://kit.fontawesome.com/7f6ee3d237.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css">
-    <title>Think Hard Blog</title>
+    <title>Mind Saga</title>
     <style>
         .heading{
             font-family: Bitter,Georgia,"Times New Roman",Times,serif;
@@ -21,32 +21,30 @@
 </head>
 <body>
 <!--NAVIGATION BAR STARTS-->
-<div style="height: 10px; background: cornflowerblue;"></div>
-<div class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a href="#" class="navbar-brand">THINK HARD</a>
-        <button style="background-color: #BEC9F2;" class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#Rcollapse">
+<div class="navbar navbar-expand-lg navbar-light bg-custom">
+    <div class="container-fluid">
+        <a href="#" class="navbar-brand " style= "color:aliceblue; font-family: mindsagacustom;">MindSaga</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#NavbarContent" aria-controls="NavbarContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggle-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="Rcollapse">
+<!--        CONTENT WHEN NAVBAR IS COLLAPSE-->
+        <div class="collapse navbar-collapse" id="NavbarContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a href="index.php" class="nav-link">Home</a>
+                    <a href="index.php" class="nav-link active" style= "color:white ; font-weight: bolder; ">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">About Us</a>
+                    <a href="#" class="nav-link " style= "color:white ; font-weight: bolder; ">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a href="index.php" class="nav-link">Blog</a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Contact Us</a>
+                    <a href="index.php" class="nav-link " style= "color:white ; font-weight: bolder; ">Blog</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Features</a>
+                    <a href="#" class="nav-link " style= "color:white ; font-weight: bolder; " >Contact Us</a>
                 </li>
-
+                <li class="nav-item">
+                    <a href="#" class="nav-link" style= "color:white ; font-weight: bolder; ">Features</a>
+                </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <form class="form-inline d-none d-sm-block" action="index.php">
@@ -57,21 +55,15 @@
                 </form>
             </ul>
         </div>
-
     </div>
 </div>
-<div style="height: 10px; background: cornflowerblue"></div>
-<!--NAVIGATION BAR STARTS-->
+<!--NAVIGATION BAR ends-->
 
 <!--HEADER STARTS-->
-<div class="container">
-    <div class="row mt-4">
-
-        <!--main area starts---->
-
+<div class="container-fluid">
+    <div class="row mt-5">
+            <!--main area starts---->
         <div class="col-sm-8">
-          <h1>Blog</h1>
-            <h1 class="lead">By Debashis Nayak</h1>
             <?php
             global $ConnectingDB;
              //sql query when search button is active
@@ -105,7 +97,7 @@
             }
               //the default SQL query
             else{
-                $sql = "SELECT * FROM posts ORDER BY id desc LIMIT 0,3";
+                $sql = "SELECT * FROM posts ORDER BY id desc LIMIT 0,4";
                 $stmt = $ConnectingDB->query($sql);
             }
             while ($DataRows = $stmt->fetch()){
@@ -118,25 +110,27 @@
                 $PostDescription = $DataRows["post"];
 
             ?>
-            <div class="card">
-                <img src="Uploads/<?php echo htmlentities($Image); ?>" style="max-height: 450px;" class="img-fluid card-img-top"/>
-                <div class="card-body">
-                    <h4 class="card-title px-3"><?php echo htmlentities($PostTitle)?></h4>
-                    <small class="text-muted">Category: <span class="text-dark"> <a href="index.php?category=<?php echo htmlentities($Category); ?>"> <?php echo htmlentities($Category); ?> </a></span> & Written by <span class="text-muted"> <a href="Profile.php?username=<?php echo htmlentities($Admin); ?>"> <?php echo htmlentities($Admin); ?></a></span> On <span class="text-muted"><?php echo htmlentities($DateTime); ?></span></small>
-                    <span style="float: right" class="badge badge-dark text-light px-3">Comments
-                        <?php echo ApproveCommentsAccordingtoPost($PostId);?>
-                    </span>
-                    <hr>
-                    <p class="card-text px-4">
-                        <?php if (strlen($PostDescription)>150){$PostDescription = substr($PostDescription,0,150).'...';} echo htmlentities($PostDescription) ?>
-                    </p>
-                    <a href="FullPost.php?id=<?php echo $PostId; ?>" style="float: right" class="px-2 py-2">
-                        <span class="btn btn-info px-1"> Read More >></span>
-                    </a>
+                <div class="col-sm-6 mb-2 test">
+                   <div class="card h-100" style="border-radius: 2rem; box-shadow: 4px 11px 7px -2px skyblue;  margin: 0 auto; float: none;">
+                     <img src="Uploads/<?php echo htmlentities($Image); ?>" style="max-height: 350px;" class="img-fluid card-img-top"/>
+                      <div class="card-body">
+                         <h4 class="card-title"><?php echo htmlentities($PostTitle)?></h4>
+                         <small class="text-muted">Category: <span class="text-dark"> <a href="index.php?category=<?php echo htmlentities($Category); ?>"> <?php echo htmlentities($Category); ?> </a></span> & Written by <span class="text-muted"> <a href="Profile.php?username=<?php echo htmlentities($Admin); ?>"> <?php echo htmlentities($Admin); ?></a></span> On <span class="text-muted"><?php echo htmlentities($DateTime); ?></span></small>
+                         <span style="float: right" class="badge badge-dark text-light px-3 py-2 mt-2">Comments
+                                <?php echo ApproveCommentsAccordingtoPost($PostId);?>
+                         </span>
+                         <hr>
+                         <p class="card-text px-4">
+                             <?php if (strlen($PostDescription)>150){$PostDescription = substr($PostDescription,0,150).'...';} echo htmlentities($PostDescription) ?>
+                         </p>
+                         <a href="FullPost.php?id=<?php echo $PostId; ?>" style="float: right" class="px-2 py-2">
+                              <span class="btn btn-sm btn-info px-1" style="float: right;"> Read More >></span>
+                         </a>
+                     </div>
+                  </div>
                 </div>
-            </div>
-                <br>
             <?php } ?>
+
             <!--pagination-->
              <nav>
                  <ul class="pagination pagination-lg">

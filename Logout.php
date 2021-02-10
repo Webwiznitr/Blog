@@ -6,5 +6,5 @@ $_SESSION["UserId"]=null;
 $_SESSION["UserName"]=null;
 $_SESSION["AdminName"]=null;
 session_destroy();
-Redirect_to("Login.php");
+Redirect_to("Logout.php");
 ?>
