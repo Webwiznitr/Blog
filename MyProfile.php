@@ -72,48 +72,48 @@ if (strlen($AHeadline)>30) {
 <?php  ?>
 <!--NAVBAR STARTS-->
 
-<div class="navbar navbar-expand-lg navbar-dark bg-dark">
+<div class="navbar navbar-expand-lg navbar-light bg-custom">
     <div class="container">
-        <a href="#" class="navbar-brand " style= "color:aliceblue;">MindSaga</a>
-        <button style="background-color: #BEC9F2;" class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#Rcollapse">
-            <span class="navbar-toggle-icon"></span>
+        <a href="#" class="navbar-brand " style= "color:aliceblue; font-family: mindsagacustom;">MindSaga</a>
+        <button class="navbar-toggler ml-auto" type="button" data-bs-toggle="collapse" data-bs-target="#Rcollapse" aria-controls="Rcollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="Rcollapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a href="#" class="nav-link"><i class="fas fa-user text-success"></i> My Profile</a>
+                <li class="nav-item" >
+                    <a href="MyProfile.php" class="nav-link" style= "color:white ; font-weight: bolder;">My Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a href="Dashboard.php" class="nav-link">Dashboard</a>
+                    <a href="Dashboard.php" class="nav-link" style= "color:white ; font-weight: bolder;">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a href="Posts.php" class="nav-link">Posts</a>
+                    <a href="Posts.php" class="nav-link" style= "color:white ; font-weight: bolder;">Posts</a>
                 </li>
                 <li class="nav-item">
-                    <a href="Categories.php" class="nav-link">Categories</a>
+                    <a href="Categories.php" class="nav-link"style= "color:white ; font-weight: bolder;">Categories</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="Admins.php" class="nav-link">Manage Admins</a>
+                    <a href="Admins.php" class="nav-link" style= "color:white ; font-weight: bolder;">Manage Admins</a>
                 </li>
                 <li class="nav-item">
-                    <a href="Comments.php" class="nav-link">Comments</a>
+                    <a href="Comments.php" class="nav-link" style= "color:white ; font-weight: bolder;">Comments</a>
                 </li>
                 <li class="nav-item">
-                    <a href="index.php" class="nav-link">GO Live</a>
+                    <a href="index.php" class="nav-link" style= "color:white ; font-weight: bolder;">GO Live</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a href="Logout.php" class="nav-link text-danger"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li class="nav-item" ><a href="Logout.php" class="nav-link text-warning" ><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </div>
+
     </div>
 </div>
-
 <!--NAVBAR ENDS-->
 
 <!--HEADER STARTS-->
-<header class="bg-dark text-white py-3">
+<header class="text-white py-3"style="background-image:linear-gradient(360deg, #1B80B2 ,#1B0039);">
     <div class="container">
         <div class="row">
             <div class="col-md-12">

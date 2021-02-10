@@ -27,39 +27,41 @@ Confirm_Login();
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="Rcollapse">
-           <ul class="navbar-nav mr-auto">
-               <li class="nav-item">
-                   <a href="MyProfile.php" class="nav-link"><i class="fas fa-user text-success"></i> My Profile</a>
-              </li>
-              <li class="nav-item">
-                   <a href="Dashboard.php" class="nav-link">Dashboard</a>
-              </li>
-              <li class="nav-item">
-                   <a href="Posts.php" class="nav-link">Posts</a>
-              </li>
-              <li class="nav-item">
-                   <a href="Categories.php" class="nav-link">Categories</a>
-              </li>
-              <li class="nav-item">
-                   <a href="Admins.php" class="nav-link">Manage Admins</a>
-              </li>
-              <li class="nav-item">
-                   <a href="Comments.php" class="nav-link">Comments</a>
-              </li>
-              <li class="nav-item">
-                   <a href="index.php?page=1" class="nav-link">GO Live</a>
-             </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-               <li class="nav-item"><a href="Logout.php" class="nav-link text-danger"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-          </ul>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" >
+                    <a href="MyProfile.php" class="nav-link" style= "color:white ; font-weight: bolder;">My Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a href="Dashboard.php" class="nav-link" style= "color:white ; font-weight: bolder;">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a href="Posts.php" class="nav-link" style= "color:white ; font-weight: bolder;">Posts</a>
+                </li>
+                <li class="nav-item">
+                    <a href="Categories.php" class="nav-link"style= "color:white ; font-weight: bolder;">Categories</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="Admins.php" class="nav-link" style= "color:white ; font-weight: bolder;">Manage Admins</a>
+                </li>
+                <li class="nav-item">
+                    <a href="Comments.php" class="nav-link" style= "color:white ; font-weight: bolder;">Comments</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.php" class="nav-link" style= "color:white ; font-weight: bolder;">GO Live</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item" ><a href="Logout.php" class="nav-link text-warning" ><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
         </div>
+
     </div>
 </div>
 <!--NAVIGATION BAR ENDS-->
 
 <!--HEADER STARTS-->
-<header class="bg-dark text-white py-3">
+<header class="text-white py-3"style="background-image:linear-gradient(360deg, #1B80B2 ,#1B0039);">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
